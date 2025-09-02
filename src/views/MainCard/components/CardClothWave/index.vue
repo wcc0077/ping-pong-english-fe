@@ -103,9 +103,17 @@ onMounted(() => {
         cloth.className = 'cloth';
         cloth.style.width = `${clothType.width}px`;
         cloth.style.height = `${clothType.height}px`;
-        cloth.style.backgroundColor = color;
+        // cloth.style.backgroundColor = color;
+        cloth.style.backgroundColor = 'white';
         cloth.style.top = '20px';
-        cloth.innerHTML = 'apple'
+
+        // 组装单词和图片
+        const word = document.createElement('div');
+        word.innerHTML = store.clothWaveWords[0].spell
+        const img = document.createElement('img');
+        img.src = store.clothWaveWords[0].pic
+        cloth.appendChild(img)
+        cloth.appendChild(word)
 
         // 添加衣物细节
         if (type === 'tshirt') {
@@ -226,7 +234,7 @@ onMounted(() => {
 .card-cloth-wave {
   position: absolute;
   width: 100%;
-  height: 600px;
+  /* height: 600px; */
   left: 0;
   top: 0;
 }
@@ -235,7 +243,7 @@ onMounted(() => {
     /* width: 80%; */
     height: 2px;
     background: #8B4513;
-    margin-top: 100px;
+    margin-top: 80px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
@@ -255,6 +263,15 @@ onMounted(() => {
 .cloth {
     position: relative;
     transform-origin: 50% 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: white; */
+    border: 1px solid gray;
+    img {
+      width: 100%;
+    }
 }
 
 .control-panel {
@@ -278,7 +295,7 @@ onMounted(() => {
     align-items: center;
     gap: 10px;
 }
-
+/*
 button {
     padding: 8px 16px;
     background: #4CAF50;
@@ -286,6 +303,6 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
+} */
 </style>
 
