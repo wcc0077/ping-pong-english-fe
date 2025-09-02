@@ -84,7 +84,12 @@ onMounted(() => {
         // 创建衣物容器
         const container = document.createElement('div');
         container.className = 'cloth-container';
-        container.style.left = `${Math.random() * (lineWidth - clothType.width)}px`;
+        // container.style.left = `${Math.random() * (lineWidth - clothType.width)}px`;
+        const step = lineWidth/7
+        clothes.forEach(( c, index) => {
+          c.container.style.left = `${ step * (index * 2 + 3) }px`
+        })
+        container.style.left = `${ step }px`;
 
         // 创建晾衣绳
         const string = document.createElement('div');
@@ -227,7 +232,7 @@ onMounted(() => {
 }
 .clothes-line {
     position: relative;
-    width: 80%;
+    /* width: 80%; */
     height: 2px;
     background: #8B4513;
     margin-top: 100px;
