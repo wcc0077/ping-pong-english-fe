@@ -1,0 +1,23 @@
+{
+  "id": "5012148",
+  "name": "pingpong-english",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2076319",
+      "name": "播放",
+      "font_class": "bofang",
+      "unicode": "e8a3",
+      "unicode_decimal": 59555
+    },
+    {
+      "icon_id": "23341296",
+      "name": "iconproject",
+      "font_class": "iconproject",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    }
+  ]
+}

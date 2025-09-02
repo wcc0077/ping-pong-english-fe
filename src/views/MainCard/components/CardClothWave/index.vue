@@ -1,0 +1,286 @@
+<template>
+  <div class="card-cloth-wave">
+    <div class="clothes-line" id="clothesLine"></div>
+
+    <div class="control-panel">
+        <div class="wind-control">
+            <div class="slider-container" style="display: none;">
+                <span>风力强度:</span>
+                <input type="range" id="windStrength" min="0" max="10" value="3">
+                <span id="windValue">3</span>
+            </div>
+            <div class="cloth-options" style="display: none;">
+                <button id="addTshirt">添加T恤</button>
+                <button id="addPants">添加裤子</button>
+                <button id="clearAll">清空</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</template>
+
+<script setup  lang="ts">
+import { onMounted } from 'vue';
+import { useMainCardStore } from '@/stores/mainCard'
+const store = useMainCardStore()
+
+onMounted(() => {
+    const clothesLine = document.getElementById('clothesLine');
+    const windStrength = document.getElementById('windStrength');
+    const windValue = document.getElementById('windValue');
+    const addTshirtBtn = document.getElementById('addTshirt');
+    const addPantsBtn = document.getElementById('addPants');
+    const clearAllBtn = document.getElementById('clearAll');
+
+    let windPower = 0.7;
+    let clothes = []; // 存储衣物数据
+    let animationId;
+
+    // 衣物类型配置
+    const clothTypes = {
+        tshirt: {
+            name: 'T恤',
+            width: 60,
+            height: 80,
+            colors: ['#FF5252', '#4CAF50', '#2196F3', '#FFC107'],
+            elasticity: 0.3,
+            weight: 1.2
+        },
+        pants: {
+            name: '裤子',
+            width: 70,
+            height: 100,
+            colors: ['#795548', '#607D8B', '#9E9E9E', '#3E2723'],
+            elasticity: 0.2,
+            weight: 1.5
+        }
+    };
+
+    // 初始化
+    function init() {
+        // 添加初始衣物
+        // addCloth('pants');
+        // addCloth('pants');
+        addCloth('tshirt');
+        addCloth('tshirt');
+        addCloth('tshirt');
+
+        // 设置事件监听
+        windStrength.addEventListener('input', updateWind);
+        addTshirtBtn.addEventListener('click', () => addCloth('tshirt'));
+        addPantsBtn.addEventListener('click', () => addCloth('pants'));
+        clearAllBtn.addEventListener('click', clearAllClothes);
+
+        // 开始动画
+        animateClothes();
+    }
+
+    // 添加衣物
+    function addCloth(type) {
+        const lineWidth = clothesLine.offsetWidth;
+        const clothType = clothTypes[type];
+        const color = clothType.colors[Math.floor(Math.random() * clothType.colors.length)];
+
+        // 创建衣物容器
+        const container = document.createElement('div');
+        container.className = 'cloth-container';
+        container.style.left = `${Math.random() * (lineWidth - clothType.width)}px`;
+
+        // 创建晾衣绳
+        const string = document.createElement('div');
+        string.className = 'clothes-line-string';
+        string.style.height = '20px';
+        string.style.left = '50%';
+        string.style.transform = 'translateX(-50%)';
+
+        // 创建衣物
+        const cloth = document.createElement('div');
+        cloth.className = 'cloth';
+        cloth.style.width = `${clothType.width}px`;
+        cloth.style.height = `${clothType.height}px`;
+        cloth.style.backgroundColor = color;
+        cloth.style.top = '20px';
+        cloth.innerHTML = 'apple'
+
+        // 添加衣物细节
+        if (type === 'tshirt') {
+            cloth.style.borderRadius = '5px 5px 0 0';
+            // 添加领口效果
+            const neck = document.createElement('div');
+            neck.style.position = 'absolute';
+            neck.style.width = '20px';
+            neck.style.height = '10px';
+            neck.style.backgroundColor = 'rgba(0,0,0,0.1)';
+            neck.style.borderRadius = '0 0 10px 10px';
+            neck.style.top = '0';
+            neck.style.left = '50%';
+            neck.style.transform = 'translateX(-50%)';
+            cloth.appendChild(neck);
+        } else {
+            // 裤子效果
+            cloth.style.display = 'flex';
+            cloth.style.justifyContent = 'space-between';
+
+            const leftLeg = document.createElement('div');
+            leftLeg.style.width = '30%';
+            leftLeg.style.height = '100%';
+            leftLeg.style.backgroundColor = color;
+            leftLeg.style.borderRight = '1px solid rgba(0,0,0,0.2)';
+
+            const rightLeg = document.createElement('div');
+            rightLeg.style.width = '30%';
+            rightLeg.style.height = '100%';
+            rightLeg.style.backgroundColor = color;
+            rightLeg.style.borderLeft = '1px solid rgba(0,0,0,0.2)';
+
+            cloth.appendChild(leftLeg);
+            cloth.appendChild(rightLeg);
+        }
+
+        // 组装元素
+        container.appendChild(string);
+        container.appendChild(cloth);
+        clothesLine.appendChild(container);
+
+        // 保存衣物数据
+        clothes.push({
+            container: container,
+            string: string,
+            cloth: cloth,
+            type: type,
+            x: parseFloat(container.style.left),
+            swing: Math.random() * 5 + 5,
+            swingSpeed: 0.02 + Math.random() * 0.03,
+            swingPhase: Math.random() * Math.PI * 2,
+            rotation: 0,
+            stringAngle: 0,
+            elasticity: clothType.elasticity,
+            weight: clothType.weight
+        });
+    }
+
+    // 更新风力
+    function updateWind() {
+        windPower = parseInt(windStrength.value);
+        windValue.textContent = windPower;
+    }
+
+    // 清空所有衣物
+    function clearAllClothes() {
+        clothesLine.innerHTML = '';
+        clothes = [];
+    }
+
+    // 动画循环
+    function animateClothes() {
+        clothes.forEach(cloth => {
+            cloth.swingPhase += cloth.swingSpeed * (1 + windPower * 0.1);
+
+            // 计算物理效果
+            const swingAmount = cloth.swing * windPower;
+            const xOffset = Math.sin(cloth.swingPhase) * swingAmount;
+
+            // 计算晾衣绳角度 (基于风力)
+            cloth.stringAngle = Math.sin(cloth.swingPhase) * windPower * 2;
+
+            // 计算衣物旋转 (基于风力)
+            cloth.rotation = Math.sin(cloth.swingPhase * 1.2) * windPower * 3;
+
+            // 计算衣物变形 (基于风力)
+            const scaleX = 1 + Math.sin(cloth.swingPhase) * windPower * 0.02 * cloth.elasticity;
+            const scaleY = 1 - Math.abs(Math.cos(cloth.swingPhase) * windPower * 0.01 * cloth.elasticity);
+
+            // 应用晾衣绳变换
+            cloth.string.style.transform = `translateX(-50%) rotate(${cloth.stringAngle}deg)`;
+
+            // 应用衣物变换
+            cloth.cloth.style.transform = `
+                rotate(${cloth.rotation}deg)
+                scaleX(${scaleX})
+                scaleY(${scaleY})
+            `;
+
+            // 应用容器位置
+            cloth.container.style.transform = `translateX(${xOffset}px)`;
+        });
+
+        animationId = requestAnimationFrame(animateClothes);
+    }
+
+    // 启动
+    init();
+
+    // 清理
+    window.addEventListener('beforeunload', () => {
+        cancelAnimationFrame(animationId);
+    });
+  });
+</script>
+
+<style >
+.card-cloth-wave {
+  position: absolute;
+  width: 100%;
+  height: 600px;
+  left: 0;
+  top: 0;
+}
+.clothes-line {
+    position: relative;
+    width: 80%;
+    height: 2px;
+    background: #8B4513;
+    margin-top: 100px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.cloth-container {
+    position: absolute;
+    transform-origin: 50% 0;
+    transition: transform 0.5s ease-out;
+}
+
+.clothes-line-string {
+    position: absolute;
+    width: 1px;
+    background: #555;
+    transform-origin: 50% 0;
+}
+
+.cloth {
+    position: relative;
+    transform-origin: 50% 0;
+}
+
+.control-panel {
+    margin-top: 50px;
+    background: rgba(255,255,255,0.8);
+    padding: 20px;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 12px rgba(0,0,0,0.1); */
+    width: 80%;
+    max-width: 500px;
+}
+
+.wind-control {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    padding: 8px 16px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+</style>
+
