@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "27285395",
+      "name": "向左回退",
+      "font_class": "a-ziyuan558",
+      "unicode": "e78e",
+      "unicode_decimal": 59278
+    },
+    {
+      "icon_id": "42658617",
+      "name": "钱袋子",
+      "font_class": "lujing",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
       "icon_id": "2076319",
       "name": "播放",
       "font_class": "bofang",

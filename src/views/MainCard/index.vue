@@ -1,14 +1,20 @@
 <template>
   <div class="main-card">
-    <CardClothWave/>
-    <Translation/>
-    <Pic/>
-    <WordsShow :word="store"/>
+    <div class="top">
+      <TopHeader/>
+      <CardClothWave/>
+    </div>
+    <div class="content">
+      <Translation/>
+      <Pic/>
+      <WordsShow :word="store"/>
+    </div>
     <FooterBtns/>
   </div>
 </template>
 
 <script setup lang="ts">
+import TopHeader from './components/TopHeader/index.vue'
 import CardClothWave from './components/CardClothWave/index.vue'
 import Translation from './components/Translation/index.vue'
 import Pic from './components/Pic/index.vue'
@@ -22,13 +28,19 @@ const store = useMainCardStore()
 <style scoped>
 .main-card {
   height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.content{
   width: 100%;
-  padding: 100px 0;
+  padding: 120px 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  position: relative;
+  flex: 1;
 }
 </style>

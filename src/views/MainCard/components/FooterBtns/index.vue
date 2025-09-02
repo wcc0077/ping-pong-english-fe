@@ -35,6 +35,6 @@ const click = (src: string) => {
 }
 
 .icon-iconproject {
-  margin-right: 20px;
+  margin-right: 40px;
 }
 </style>
