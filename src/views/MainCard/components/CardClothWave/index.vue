@@ -268,10 +268,13 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     /* background-color: white; */
-    border: 1px solid gray;
+    /* border: 1px solid rgb(210, 210, 210); */
     img {
       width: 100%;
+      /* max-width: 200px !important; */
     }
+    /* width: fit-content !important; */
+    font-size: 18px;
 }
 
 .control-panel {
