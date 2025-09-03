@@ -17,4 +17,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  optimizeDeps: {
+    // exclude: ['console'] // 防止特定模块被外部化
+  }
 })
