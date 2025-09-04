@@ -5,21 +5,23 @@ import rabbit_pic from '@/assets/pics/rabbit.png'
 import audioSrc from '@/assets/audios/banana-1.mp3'
 import audioSrc_2 from '@/assets/audios/banana-2.mp3'
 import audio_zh from '@/assets/audios/香蕉.mp3'
+import rabbit_audio from '@/assets/audios/rabbit.mp3'
+import apple_audio from '@/assets/audios/apple.mp3'
 
 const clothWaveWords = [
-   {
-      spell: 'banana',
-      zh: '香蕉',
-      pic: banana_pic,
-      audio: audioSrc,
-      audio_2: audioSrc_2,
-      audio_zh:audio_zh
-    },
+  //  {
+  //     spell: 'banana',
+  //     zh: '香蕉',
+  //     pic: banana_pic,
+  //     audio: audioSrc,
+  //     audio_2: audioSrc_2,
+  //     audio_zh:audio_zh
+  //   },
     {
       spell: 'apple',
       zh: '苹果',
       pic: apple_pic,
-      audio: audioSrc,
+      audio: apple_audio,
       audio_2: audioSrc_2,
       audio_zh:audio_zh
     },
@@ -27,7 +29,7 @@ const clothWaveWords = [
       spell: 'rabbit',
       zh: '兔子',
       pic: rabbit_pic,
-      audio: audioSrc,
+      audio: rabbit_audio,
       audio_2: audioSrc_2,
       audio_zh:audio_zh
     },
@@ -43,7 +45,7 @@ export const useMainCardStore = defineStore('main-card', {
       audio_2: audioSrc_2,
       audio_zh:audio_zh
     },
-    
+
     audio: new Audio(),
     isPlaying: false,  // 是否在播放
 

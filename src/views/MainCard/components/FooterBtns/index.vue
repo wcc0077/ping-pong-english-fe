@@ -2,6 +2,8 @@
   <div class="footer-btns">
     <span class="iconfont icon-iconproject" @click.stop="click1"></span>
     <span class="iconfont icon-bofang"  @click.stop="click()"></span>
+    <span @click="test">ceshi</span>
+    <span @click="add">加衣服</span>
   </div>
 </template>
 
@@ -27,6 +29,14 @@ const click1 = () => {
 const click = () => {
   playSingleAudio(store.curWord.audio_2)
   animStore.word.split.restart()
+}
+
+const test = () => {
+  animStore.flip2bag.restart()
+}
+
+const add = () => {
+  store.clothWaveWords.unshift(store.curWord)
 }
 </script>
 

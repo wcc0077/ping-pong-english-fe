@@ -5,8 +5,8 @@
       <CardClothWave/>
     </div>
     <div class="main-content"
-
-      @click="handleClick">
+      @click="handleClick"
+    >
       <Translation/>
       <Pic/>
       <WordsShow :word="store"/>
@@ -26,16 +26,17 @@ import { useMainCardStore } from '@/stores/mainCard'
 import { useClickEmpty } from './hooks/useClickContentEmpty'
 import { useCollectFlip } from './hooks/useCollectFlip'
 import { onMounted , ref} from 'vue'
+import { useStore } from '@/stores/animStore'
 
 const store = useMainCardStore()
+
+const animStore = useStore()
 
 const topHeader = ref<InstanceType<typeof TopHeader>|null>(null)
 
 onMounted(() => {
   const { anim } = useCollectFlip('.main-content', '.bag-icon')
-  setTimeout(() => {
-    anim.restart()
-  }, 1000);
+  animStore.flip2bag = anim
 })
 
 const {
