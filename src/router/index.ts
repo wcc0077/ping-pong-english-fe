@@ -8,11 +8,11 @@ const routes = [
     name:'Home',
     component: () => import('@/views/MainCard/index.vue')
   },
-  {
-    path:'/test',
-    name: 'Test',
-    component: () => import('@/views/WordShowTest/index.vue')
-  }
+  // {
+  //   path:'/test',
+  //   name: 'Test',
+  //   component: () => import('@/views/WordShowTest/index.vue')
+  // }
 ]
 
 const router = createRouter({

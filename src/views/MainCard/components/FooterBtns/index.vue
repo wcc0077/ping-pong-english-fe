@@ -1,19 +1,29 @@
 <template>
   <div class="footer-btns">
-    <span class="iconfont icon-iconproject" @click.stop="useConsistentRead(store)"></span>
+    <span class="iconfont icon-iconproject" @click.stop="click1"></span>
     <span class="iconfont icon-bofang"  @click.stop="click()"></span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useMainCardStore } from '@/stores/mainCard';
-import { useConsistentRead } from '../../hooks/useConsistentRead'
 import { useStore } from '@/stores/animStore';
-import { playSingleAudio } from '@/gloabl/audio'
+import { playSingleAudio, playSerialAudio } from '@/gloabl/audio'
 
 const store = useMainCardStore()
 
 const animStore = useStore()
+
+const click1 = () => {
+  playSerialAudio([
+    store.curWord.audio,
+    store.curWord.audio_2,
+    store.curWord.audio_zh,
+    store.curWord.audio_2,
+    store.curWord.audio,
+  ])
+}
+
 const click = () => {
   playSingleAudio(store.curWord.audio_2)
   animStore.word.split.restart()

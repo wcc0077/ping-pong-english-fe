@@ -1,12 +1,12 @@
 <template>
   <div class="main-card">
     <div class="top">
-      <TopHeader/>
+      <TopHeader ref="topHeader"/>
       <CardClothWave/>
     </div>
-    <div class="content"
-      @pointerdown="handlePointerDown"
-      @pointerup="handlePointerUp">
+    <div class="main-content"
+
+      @click="handleClick">
       <Translation/>
       <Pic/>
       <WordsShow :word="store"/>
@@ -23,15 +23,26 @@ import Pic from './components/Pic/index.vue'
 import WordsShow from './components/WordsShow/index.vue'
 import FooterBtns from './components/FooterBtns/index.vue'
 import { useMainCardStore } from '@/stores/mainCard'
-import { useSplitHandler } from './hooks/useSplitHandler'
+import { useClickEmpty } from './hooks/useClickContentEmpty'
+import { useCollectFlip } from './hooks/useCollectFlip'
+import { onMounted , ref} from 'vue'
 
 const store = useMainCardStore()
+
+const topHeader = ref<InstanceType<typeof TopHeader>|null>(null)
+
+onMounted(() => {
+  const { anim } = useCollectFlip('.main-content', '.bag-icon')
+  setTimeout(() => {
+    anim.restart()
+  }, 1000);
+})
+
 const {
-  handlePointerDown,
-  handlePointerUp } = useSplitHandler(store)
+  handleClick } = useClickEmpty(store)
 </script>
 
-<style scoped>
+<style>
 .main-card {
   height: 100%;
   position: relative;
@@ -39,7 +50,7 @@ const {
   flex-direction: column;
 }
 
-.content{
+.main-content{
   width: 100%;
   padding: 120px 0;
   box-sizing: border-box;

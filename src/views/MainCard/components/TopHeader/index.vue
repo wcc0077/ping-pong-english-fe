@@ -1,6 +1,7 @@
 <template>
   <div class="top-header">
     <Back />
+    <FullScreen v-if="false"/>
     <Statistic />
     <BagIcon />
   </div>
@@ -8,6 +9,7 @@
 
 <script setup lang="ts">
 import Back from './Back/index.vue'
+import FullScreen from './FullScreen/index.vue'
 import Statistic from './Statistic/index.vue'
 import BagIcon from './BagIcon/index.vue'
 import { useMainCardStore } from '@/stores/mainCard'
