@@ -44,7 +44,7 @@ onMounted(() => {
   const addPantsBtn = document.getElementById('addPants')
   const clearAllBtn = document.getElementById('clearAll')
 
-  let windPower = 0.7
+  let windPower = 0.6
 
   let animationId
 
@@ -182,7 +182,7 @@ onMounted(() => {
     clothesLine.appendChild(container)
 
     // 保存衣物数据
-    clothes.push({
+    clothes.unshift({
       container: container,
       string: string,
       cloth: cloth,
@@ -243,7 +243,8 @@ onMounted(() => {
             `
 
       // 应用容器位置
-      cloth.container.style.transform = `translateX(${xOffset}px)`
+      // cloth.container.style.transform = `translateX(${xOffset}px)`
+      cloth.container.style.transform = `rotate(${xOffset}deg)`
 
       const wordData = store.clothWaveWords[index]
       cloth.word.innerHTML = wordData.spell
