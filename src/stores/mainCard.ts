@@ -43,9 +43,13 @@ export const useMainCardStore = defineStore('main-card', {
       audio_2: audioSrc_2,
       audio_zh:audio_zh
     },
+    
     audio: new Audio(),
+    isPlaying: false,  // 是否在播放
+
     picScale: 1,
     clothWaveWords,
+    anim: {split: null, wave: null},
   }),
   actions: {
     play(src:string) {

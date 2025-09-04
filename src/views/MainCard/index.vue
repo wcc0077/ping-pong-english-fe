@@ -4,7 +4,9 @@
       <TopHeader/>
       <CardClothWave/>
     </div>
-    <div class="content">
+    <div class="content"
+      @pointerdown="handlePointerDown"
+      @pointerup="handlePointerUp">
       <Translation/>
       <Pic/>
       <WordsShow :word="store"/>
@@ -21,8 +23,12 @@ import Pic from './components/Pic/index.vue'
 import WordsShow from './components/WordsShow/index.vue'
 import FooterBtns from './components/FooterBtns/index.vue'
 import { useMainCardStore } from '@/stores/mainCard'
+import { useSplitHandler } from './hooks/useSplitHandler'
 
 const store = useMainCardStore()
+const {
+  handlePointerDown,
+  handlePointerUp } = useSplitHandler(store)
 </script>
 
 <style scoped>

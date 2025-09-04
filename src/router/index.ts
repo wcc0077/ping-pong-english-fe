@@ -4,12 +4,12 @@ import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router
 const routes = [
   // Define your routes here
   {
-    path:'/home',
+    path:'/',
     name:'Home',
     component: () => import('@/views/MainCard/index.vue')
   },
   {
-    path:'/',
+    path:'/test',
     name: 'Test',
     component: () => import('@/views/WordShowTest/index.vue')
   }
