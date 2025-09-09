@@ -6,7 +6,7 @@
     </div>
     <div class="main-content"
       @click="handleClick"
-      v-if="false"
+      v-if="true"
     >
       <Translation/>
       <Pic/>
