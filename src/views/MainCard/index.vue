@@ -12,6 +12,7 @@
       <Pic/>
       <WordsShow :word="store"/>
     </div>
+    hello flow
     <Closet v-else/>
     <FooterBtns/>
   </div>
