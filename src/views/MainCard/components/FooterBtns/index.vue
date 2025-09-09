@@ -1,16 +1,18 @@
 <template>
   <div class="footer-btns">
     <span class="iconfont icon-iconproject" @click.stop="click1"></span>
-    <span class="iconfont icon-bofang"  @click.stop="click()"></span>
-    <span @click="test">ceshi</span>
-    <span @click="add">加衣服</span>
+    <span class="iconfont icon-bofang" @click.stop="click()"></span>
+    <!-- <span @click="test">ceshi</span> -->
+    <!-- <span @click="add">加衣服</span> -->
+    <div @click="handlePath">出现</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useMainCardStore } from '@/stores/mainCard';
-import { useStore } from '@/stores/animStore';
+import { useMainCardStore } from '@/stores/mainCard'
+import { useStore } from '@/stores/animStore'
 import { playSingleAudio, playSerialAudio } from '@/gloabl/audio'
+import { extract } from '../../utils/extractPath'
 
 const store = useMainCardStore()
 
@@ -37,6 +39,11 @@ const test = () => {
 
 const add = () => {
   store.clothWaveWords.unshift(store.curWord)
+}
+
+const handlePath = () => {
+  animStore.word.getOutLarge.restart()
+  playSingleAudio(store.curWord.audio_2)
 }
 </script>
 

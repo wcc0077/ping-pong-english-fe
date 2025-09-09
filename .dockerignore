@@ -1,0 +1,61 @@
+# 忽略所有文件（默认）
+# *
+
+# 允许必要的构建文件
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml  # 如果是 monorepo 项目需要保留
+
+# 允许源代码目录
+!src/
+!public/
+!index.html
+!vite.config.*  # 或 webpack.config.* 等构建配置文件
+
+# 允许 Docker 相关文件
+!Dockerfile
+!.dockerignore
+!nginx.conf
+
+# 允许特定配置文件
+!.browserslistrc
+!.eslintrc.*
+!.prettierrc.*
+!tsconfig.json
+!jsconfig.json
+
+# 忽略开发依赖和构建产物
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.tmp/
+
+# 忽略版本控制和 IDE 文件
+.git/
+.gitignore
+.gitmodules
+.idea/
+.vscode/
+*.code-workspace
+
+# 忽略环境变量文件（可能包含敏感信息）
+.env
+.env.local
+.env.*.local
+
+# 忽略日志文件
+*.log
+logs/
+
+# 忽略操作系统文件
+.DS_Store
+Thumbs.db
+
+# 忽略测试文件
+__tests__/
+test/
+tests/
+*.spec.*
+*.test.*

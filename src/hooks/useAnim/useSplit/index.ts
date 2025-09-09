@@ -8,7 +8,7 @@ export const useAnimSplit = (target:Element[]) => {
   const anim =  gsap.to(target, {
     // y: -100,
     marginRight: '0.4rem',
-    color: '#c41567ff',
+    // color: '#c41567ff',
     // scale: 1.2,
     duration: 0.4,
     repeat: 1,

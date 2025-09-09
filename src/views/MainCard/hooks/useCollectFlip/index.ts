@@ -1,8 +1,5 @@
 import { Flip } from 'gsap/Flip'
-import { gsap } from 'gsap'
 import { onBeforeUnmount } from 'vue'
-
-gsap.registerPlugin(Flip)
 
 export const useCollectFlip = (source: string, target: string) => {
 

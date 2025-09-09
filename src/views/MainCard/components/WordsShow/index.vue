@@ -2,6 +2,8 @@
   <div class="words-show matte-3d-4" ref="wordsShow" @click="click">
       {{store.curWord.spell}}
   </div>
+  <!-- <FontSvg/> -->
+  <!-- <ClipPathAnim/> -->
 </template>
 
 <script setup lang="ts">
@@ -12,6 +14,9 @@ import { useAnimSplit } from '@/hooks/useAnim/useSplit'
 import { useAnimWave } from '@/hooks/useAnim/useWave'
 import { useStore as useAnimStore } from '@/stores/animStore'
 import { playSingleAudio } from '@/gloabl/audio'
+import { useAnimGetOutLarge } from '@/hooks/useAnim/useGetOutLarge'
+// import FontSvg from './FontSvg.vue'
+// import ClipPathAnim from './ClipPathAnim.vue'
 
 const store = useMainCardStore()
 
@@ -19,11 +24,13 @@ const wordsShow = ref<HTMLElement|null>(null)
 const animStore = useAnimStore()
 
 onMounted(() => {
-  const { chars } = SplitText.create(wordsShow.value, { type: 'chars' })
-  const { anim :split } = useAnimSplit(chars)
-  const { anim : wave } = useAnimWave(chars)
+  const { words } = SplitText.create(wordsShow.value, { type: 'words' })
+  const { anim :split } = useAnimSplit(words)
+  const { anim : wave } = useAnimWave(words)
+  const { anim: getOutLarge } = useAnimGetOutLarge(words)
   animStore.word.split = split
   animStore.word.wave = wave
+  animStore.word.getOutLarge = getOutLarge
 })
 
 const click = () => {
@@ -36,18 +43,30 @@ const click = () => {
 
 <style>
 .words-show {
+
+  font-family: 'ADL';
   user-select: none;
+  :nth-child(2){
+    color: rgb(166, 119, 210);
+  };
+  div {
+    /* margin-right: 0px !important; */
+    /* border: 1px solid red; */
+    margin-right: 0px;
+  };
+  display: flex;
+  /* justify-content: center; */
 }
 .matte-3d-4  {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: bold;
             /* text-align: center; */
             color: #4a4a4a;
-            text-shadow:
+            /* text-shadow:
                 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1),
                 1px 1px 1px rgba(0, 0, 0, 0.1),
                 1.5px 1.5px 1.5px rgba(0, 0, 0, 0.08),
-                2px 2px 2px rgba(0, 0, 0, 0.06);
+                2px 2px 2px rgba(0, 0, 0, 0.06); */
             margin-bottom: 50px;
             /* padding: 25px; */
             /* background: linear-gradient(150deg, #f8f8f8 0%, #eaeaea 100%); */

@@ -10,7 +10,7 @@ export const useAnimWave = (target:Element[]) => {
     duration: 0.3,
     ease: 'sine.inOut',
     textShadow: "0 2px 10px rgba(0, 0, 0, 0.3)",
-    color: '#c41567ff',
+    // color: '#c41567ff',
     stagger:{
       repeat: 1,
       yoyo: true,

@@ -8,7 +8,10 @@ import router from './router'
 
 import { gsap } from 'gsap'
 import { SplitText } from 'gsap/SplitText'
+import { Flip } from 'gsap/Flip'
+
 gsap.registerPlugin(SplitText)
+gsap.registerPlugin(Flip)
 
 const app = createApp(App)
 

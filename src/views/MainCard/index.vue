@@ -6,11 +6,13 @@
     </div>
     <div class="main-content"
       @click="handleClick"
+      v-if="false"
     >
       <Translation/>
       <Pic/>
       <WordsShow :word="store"/>
     </div>
+    <Closet v-else/>
     <FooterBtns/>
   </div>
 </template>
@@ -27,6 +29,7 @@ import { useClickEmpty } from './hooks/useClickContentEmpty'
 import { useCollectFlip } from './hooks/useCollectFlip'
 import { onMounted , ref} from 'vue'
 import { useStore } from '@/stores/animStore'
+import Closet from './components/Quiz/Closet/index.vue'
 
 const store = useMainCardStore()
 
@@ -34,10 +37,10 @@ const animStore = useStore()
 
 const topHeader = ref<InstanceType<typeof TopHeader>|null>(null)
 
-onMounted(() => {
-  const { anim } = useCollectFlip('.main-content', '.bag-icon')
-  animStore.flip2bag = anim
-})
+// onMounted(() => {
+//   const { anim } = useCollectFlip('.main-content', '.bag-icon')
+//   animStore.flip2bag = anim
+// })
 
 const {
   handleClick } = useClickEmpty(store)

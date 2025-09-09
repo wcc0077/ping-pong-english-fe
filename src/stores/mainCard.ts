@@ -38,7 +38,7 @@ const clothWaveWords = [
 export const useMainCardStore = defineStore('main-card', {
   state: () => ({
     curWord: {
-      spell: 'banana',
+      spell: 'ba na na',
       zh: '香蕉',
       pic: banana_pic,
       audio: audioSrc,
