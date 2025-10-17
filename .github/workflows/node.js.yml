@@ -1,7 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Node.js CI and Deploy
 
 on:
   push:
@@ -10,28 +7,50 @@ on:
     branches: [ "main" ]
 
 jobs:
+  # 作业1：负责在多版本Node.js环境下构建和测试
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        cache: 'pnpm' # 设置pnpm缓存
+
+    # 优化点1：添加pnpm缓存
+    - name: Cache pnpm store
+      uses: actions/cache@v3
+      with:
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+
     - run: npm install -g pnpm
     - run: pnpm i
-    - run: pnpm run build-only --if-present
-    
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3  # 使用GitHub Pages action
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}  # 使用GitHub的默认token进行认证
-        publish_dir: ./dist
+
+  # 作业2：专门负责部署，仅在main分支的push事件且构建成功时触发
+  deploy:
+    # 优化点2：将部署步骤分离为独立作业，并设置触发条件
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' # 仅在推送到main分支时运行
+    needs: build # 依赖build作业，确保其在部署前成功完成
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x' # 部署时可固定一个版本
+          cache: 'pnpm'
+      - run: npm install -g pnpm
+      - run: pnpm i
+      - run: pnpm run build-only --if-present
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
