@@ -29,7 +29,7 @@ jobs:
         cache: 'pnpm' # 使用 pnpm 缓存
 
     - run: pnpm i
-    - run: pnpm run build-only --if-present
+    - run: pnpm run build-only
 
   # 独立的部署任务，仅在构建成功且是推送到 main 分支时运行
   deploy:
@@ -49,7 +49,7 @@ jobs:
         cache: 'pnpm'
 
     - run: pnpm i
-    - run: pnpm run build-only --if-present
+    - run: pnpm run build-only
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
